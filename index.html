@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎁 Поздравляем! Вы выиграли приз!</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #ffe066 0%, #ff6fb5 50%, #6fc3ff 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 30px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    border: 4px dashed #ffb700;
+    position: relative;
+  }
+  .emoji {
+    font-size: 64px;
+    margin-bottom: 10px;
+    animation: bounce 1s infinite alternate;
+  }
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-12px); }
+  }
+  h1 {
+    color: #d6336c;
+    font-size: 28px;
+    margin-bottom: 14px;
+    text-shadow: 2px 2px 0 #ffe066;
+  }
+  p {
+    color: #333;
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .prize {
+    background: #fff3bf;
+    border: 2px dotted #ffb700;
+    padding: 14px;
+    border-radius: 12px;
+    margin: 18px 0;
+    font-weight: bold;
+    color: #b8860b;
+  }
+  .btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff6b6b, #ffa94d);
+    color: #fff;
+    text-decoration: none;
+    padding: 18px 36px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-top: 10px;
+    animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.06); }
+  }
+  .btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.7);
+  }
+  .timer {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #d6336c;
+    font-weight: bold;
+  }
+  .stars {
+    position: absolute;
+    font-size: 24px;
+  }
+  .s1 { top: 10px; left: 15px; }
+  .s2 { top: 10px; right: 15px; }
+  .s3 { bottom: 10px; left: 15px; }
+  .s4 { bottom: 10px; right: 15px; }
+  .small {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #888;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="stars s1">⭐</span>
+    <span class="stars s2">✨</span>
+    <span class="stars s3">🌟</span>
+    <span class="stars s4">💫</span>
+
+    <div class="emoji">🎁</div>
+    <h1>Поздравляем! Вы 1 000 000-й посетитель!</h1>
+    <p>Вы только что выиграли эксклюзивный приз от нашего сайта!</p>
+
+    <div class="prize">
+      🏆 Ваш приз: новый iPhone 18 Pro Max + 100&nbsp;000&nbsp;₽
+    </div>
+
+    <p>Нажмите на кнопку ниже, чтобы забрать свой подарок прямо сейчас 👇</p>
+
+    <a href="prize.html" class="btn">🎉 ЗАБРАТЬ ПРИЗ 🎉</a>
+
+    <div class="timer" id="timer">⏰ Осталось времени: 02:59</div>
+
+    <p class="small">* Акция действует только сегодня. Количество призов ограничено.</p>
+  </div>
+
+<script>
+  let total = 2 * 60 + 59;
+  const t = document.getElementById('timer');
+  setInterval(() => {
+    if (total <= 0) return;
+    total--;
+    const m = String(Math.floor(total / 60)).padStart(2, '0');
+    const s = String(total % 60).padStart(2, '0');
+    t.textContent = `⏰ Осталось времени: ${m}:${s}`;
+  }, 1000);
+</script>
+</body>
+</html>

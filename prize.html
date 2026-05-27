@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Загрузка приза...</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Arial', sans-serif;
+    cursor: none;
+  }
+  .stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #1a1a2e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #fff;
+  }
+  .loader-text {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .bar {
+    width: 320px;
+    max-width: 80vw;
+    height: 24px;
+    background: #2a2a44;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #4d4d7a;
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4dabf7, #51cf66);
+    transition: width 0.3s linear;
+  }
+  .pct {
+    margin-top: 12px;
+    font-size: 18px;
+    color: #adb5bd;
+  }
+  .scare {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+  }
+  .scare.show { display: flex; animation: shake 0.08s infinite; }
+  @keyframes shake {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-10px, 6px); }
+    50%  { transform: translate(8px, -8px); }
+    75%  { transform: translate(-6px, -4px); }
+    100% { transform: translate(4px, 10px); }
+  }
+  .scare svg {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+  .flash {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: #fff;
+    display: none;
+    animation: flash 0.12s infinite alternate;
+  }
+  .flash.show { display: block; }
+  @keyframes flash {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="loader-text">⏳ Подготавливаем ваш приз...<br><span id="step">Соединение с сервером Apple</span></div>
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <div class="pct" id="pct">0%</div>
+  </div>
+
+  <div class="flash" id="flash"></div>
+
+  <div class="scare" id="scare">
+    <svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+      <!-- background -->
+      <rect width="600" height="800" fill="#000"/>
+      <!-- pale face -->
+      <ellipse cx="300" cy="420" rx="220" ry="300" fill="#d8c7b3"/>
+      <ellipse cx="300" cy="420" rx="220" ry="300" fill="url(#grad)" opacity="0.4"/>
+      <defs>
+        <radialGradient id="grad" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#000" stop-opacity="0.9"/>
+        </radialGradient>
+      </defs>
+      <!-- dark cracks -->
+      <path d="M 200 250 Q 230 380 180 520" stroke="#3a1010" stroke-width="3" fill="none"/>
+      <path d="M 400 240 Q 380 400 430 540" stroke="#3a1010" stroke-width="3" fill="none"/>
+      <!-- hollow eye sockets -->
+      <ellipse cx="220" cy="370" rx="55" ry="70" fill="#000"/>
+      <ellipse cx="380" cy="370" rx="55" ry="70" fill="#000"/>
+      <!-- glowing red pupils -->
+      <circle cx="220" cy="380" r="14" fill="#ff0000"/>
+      <circle cx="380" cy="380" r="14" fill="#ff0000"/>
+      <circle cx="220" cy="380" r="22" fill="#ff0000" opacity="0.35"/>
+      <circle cx="380" cy="380" r="22" fill="#ff0000" opacity="0.35"/>
+      <!-- blood drip -->
+      <path d="M 215 440 Q 210 520 220 580 L 230 580 Q 220 520 225 440 Z" fill="#7a0000"/>
+      <path d="M 385 440 Q 380 540 388 610 L 398 610 Q 388 540 395 440 Z" fill="#7a0000"/>
+      <!-- nose shadow -->
+      <path d="M 295 420 Q 280 500 300 540 Q 320 500 305 420 Z" fill="#6a4a30" opacity="0.6"/>
+      <!-- screaming mouth -->
+      <ellipse cx="300" cy="620" rx="80" ry="110" fill="#000"/>
+      <ellipse cx="300" cy="630" rx="60" ry="90" fill="#2a0000"/>
+      <!-- teeth -->
+      <g fill="#e8dcc0">
+        <polygon points="250,560 270,560 265,600 255,600"/>
+        <polygon points="275,558 295,558 290,605 280,605"/>
+        <polygon points="300,558 320,558 315,605 305,605"/>
+        <polygon points="325,560 345,560 340,600 330,600"/>
+        <polygon points="250,690 265,690 260,650 255,650"/>
+        <polygon points="275,695 290,695 285,655 280,655"/>
+        <polygon points="300,695 315,695 310,655 305,655"/>
+        <polygon points="325,690 340,690 335,650 330,650"/>
+      </g>
+    </svg>
+  </div>
+
+<script>
+  const fill = document.getElementById('fill');
+  const pct  = document.getElementById('pct');
+  const step = document.getElementById('step');
+  const scare = document.getElementById('scare');
+  const flash = document.getElementById('flash');
+
+  const steps = [
+    'Соединение с сервером Apple',
+    'Проверка наличия призов',
+    'Резервирование iPhone 18 Pro Max',
+    'Подготовка перевода 100 000 ₽',
+    'Почти готово...'
+  ];
+
+  let p = 0;
+  const interval = setInterval(() => {
+    p += Math.random() * 6 + 2;
+    if (p >= 100) {
+      p = 100;
+      clearInterval(interval);
+      fill.style.width = '100%';
+      pct.textContent = '100%';
+      step.textContent = 'Готово! Открываем...';
+      setTimeout(triggerScream, 600);
+    } else {
+      fill.style.width = p + '%';
+      pct.textContent = Math.floor(p) + '%';
+      step.textContent = steps[Math.min(steps.length - 1, Math.floor(p / 22))];
+    }
+  }, 180);
+
+  function triggerScream() {
+    flash.classList.add('show');
+    scare.classList.add('show');
+
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      const ctx = new Ctx();
+
+      const master = ctx.createGain();
+      master.gain.value = 0.9;
+      master.connect(ctx.destination);
+
+      const o1 = ctx.createOscillator();
+      o1.type = 'sawtooth';
+      o1.frequency.setValueAtTime(180, ctx.currentTime);
+      o1.frequency.exponentialRampToValueAtTime(1400, ctx.currentTime + 0.6);
+      o1.frequency.exponentialRampToValueAtTime(700, ctx.currentTime + 2.2);
+
+      const o2 = ctx.createOscillator();
+      o2.type = 'square';
+      o2.frequency.setValueAtTime(240, ctx.currentTime);
+      o2.frequency.exponentialRampToValueAtTime(1800, ctx.currentTime + 0.5);
+      o2.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 2.2);
+
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 18;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 120;
+      lfo.connect(lfoGain);
+      lfoGain.connect(o1.frequency);
+      lfoGain.connect(o2.frequency);
+
+      const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2.5, ctx.sampleRate);
+      const data = noiseBuf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuf;
+
+      o1.connect(master);
+      o2.connect(master);
+      noise.connect(master);
+
+      o1.start();
+      o2.start();
+      lfo.start();
+      noise.start();
+
+      o1.stop(ctx.currentTime + 2.4);
+      o2.stop(ctx.currentTime + 2.4);
+      lfo.stop(ctx.currentTime + 2.4);
+      noise.stop(ctx.currentTime + 2.4);
+    } catch (e) { /* ignore */ }
+
+    setTimeout(() => { flash.classList.remove('show'); }, 500);
+  }
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@
 <title>DOTA BOOST PRO — MMR буст до Immortal | Бесплатная акция</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Russo+One&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Russo+One&family=Rajdhani:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -250,8 +250,7 @@
     padding: 0 24px;
   }
   .panel {
-    background:
-      linear-gradient(180deg, rgba(26,36,46,0.95), rgba(10,14,19,0.95));
+    background: linear-gradient(180deg, rgba(26,36,46,0.95), rgba(10,14,19,0.95));
     border: 2px solid transparent;
     border-image: linear-gradient(180deg, var(--gold), rgba(196,50,50,0.6), var(--gold)) 1;
     padding: 32px 30px;
@@ -339,10 +338,7 @@
     text-shadow: 0 0 12px rgba(255,59,59,0.6);
   }
 
-  .features {
-    list-style: none;
-    margin-bottom: 26px;
-  }
+  .features { list-style: none; margin-bottom: 26px; }
   .features li {
     padding: 8px 0;
     padding-left: 28px;
@@ -364,6 +360,8 @@
   .cta {
     display: inline-block;
     position: relative;
+    cursor: pointer;
+    border: 2px solid var(--gold-bright);
     padding: 20px 60px;
     font-family: 'Cinzel', serif;
     font-size: 20px;
@@ -373,7 +371,6 @@
     text-decoration: none;
     color: #fff;
     background: linear-gradient(180deg, #d63838 0%, #8a1414 100%);
-    border: 2px solid var(--gold-bright);
     clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
     box-shadow:
       0 0 25px rgba(255,59,59,0.5),
@@ -416,12 +413,7 @@
     border-left: 3px solid var(--gold);
     padding: 18px 20px;
   }
-  .review .who {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
+  .review .who { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
   .avatar {
     width: 40px; height: 40px;
     background: linear-gradient(135deg, var(--gold), var(--red));
@@ -433,21 +425,10 @@
     color: #fff;
     font-family: 'Russo One', sans-serif;
   }
-  .review .nick {
-    color: var(--gold-bright);
-    font-weight: 700;
-    letter-spacing: 1px;
-  }
-  .review .mmr {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .review .text {
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.5;
-  }
-  .stars { color: var(--gold-bright); letter-spacing: 2px; margin-bottom: 6px; }
+  .review .nick { color: var(--gold-bright); font-weight: 700; letter-spacing: 1px; }
+  .review .mmr { font-size: 12px; color: var(--muted); }
+  .review .text { color: var(--text); font-size: 14px; line-height: 1.5; }
+  .star-row { color: var(--gold-bright); letter-spacing: 2px; margin-bottom: 6px; }
 
   footer {
     position: relative;
@@ -459,6 +440,177 @@
     font-size: 12px;
     letter-spacing: 1px;
   }
+
+  /* ---------------- LOADING OVERLAY ---------------- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background:
+      radial-gradient(ellipse at center, rgba(196,50,50,0.15), transparent 60%),
+      linear-gradient(180deg, #0a0e13 0%, #050709 100%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .overlay.show { display: flex; }
+  .overlay-panel {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    background: linear-gradient(180deg, rgba(26,36,46,0.97), rgba(10,14,19,0.97));
+    border: 2px solid transparent;
+    border-image: linear-gradient(180deg, var(--gold), rgba(196,50,50,0.6), var(--gold)) 1;
+    padding: 36px 32px;
+  }
+  .overlay-panel::before, .overlay-panel::after {
+    content: '';
+    position: absolute;
+    width: 22px; height: 22px;
+    border: 2px solid var(--gold-bright);
+  }
+  .overlay-panel::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+  .overlay-panel::after  { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+  .overlay-logo {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    color: var(--gold-bright);
+    letter-spacing: 3px;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255,214,107,0.5);
+    margin-bottom: 10px;
+  }
+  .overlay-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(20px, 3vw, 26px);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .overlay-sub {
+    text-align: center;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-bottom: 24px;
+  }
+
+  .console {
+    background: #050709;
+    border: 1px solid rgba(200,160,74,0.25);
+    padding: 14px;
+    height: 160px;
+    overflow: hidden;
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+    color: #6ee06e;
+    margin-bottom: 22px;
+    text-shadow: 0 0 5px rgba(110,224,110,0.5);
+  }
+  .console .line { animation: typein 0.2s ease-out; }
+  @keyframes typein {
+    from { opacity: 0; transform: translateX(-6px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .console .ok   { color: #6ee06e; }
+  .console .warn { color: var(--gold-bright); }
+  .console .err  { color: var(--red-bright); }
+
+  .bar-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .bar-row .label { color: var(--muted); }
+  .bar-row .val { color: var(--gold-bright); font-family: 'Russo One', sans-serif; }
+  .progbar {
+    height: 22px;
+    background: #050709;
+    border: 1px solid rgba(200,160,74,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #8a1414 0%, #c43232 40%, #ffd66b 100%);
+    transition: width 0.25s linear;
+    box-shadow: 0 0 12px rgba(255,59,59,0.6);
+  }
+  .fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent 0 8px,
+      rgba(255,255,255,0.1) 8px 16px
+    );
+    animation: stripes 0.6s linear infinite;
+  }
+  @keyframes stripes {
+    from { background-position: 0 0; }
+    to   { background-position: 32px 0; }
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .cell {
+    background: rgba(10,14,19,0.9);
+    border: 1px solid rgba(200,160,74,0.2);
+    padding: 10px 12px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .cell .k { color: var(--muted); }
+  .cell .v { color: var(--gold-bright); font-family: 'Russo One', sans-serif; font-size: 14px; margin-top: 4px; }
+
+  /* ---------------- SCREAMER ---------------- */
+  .flash {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: #fff;
+    display: none;
+    animation: flash 0.1s infinite alternate;
+  }
+  .flash.show { display: block; }
+  @keyframes flash {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .scare {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+  }
+  .scare.show { display: flex; animation: shake 0.07s infinite; }
+  @keyframes shake {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-12px, 8px); }
+    50%  { transform: translate(10px, -10px); }
+    75%  { transform: translate(-8px, -6px); }
+    100% { transform: translate(6px, 12px); }
+  }
+  .scare svg { width: 100vw; height: 100vh; display: block; }
 
   @media (max-width: 800px) {
     .nav-links { display: none; }
@@ -549,7 +701,7 @@
     </ul>
 
     <div class="cta-wrap">
-      <a href="prize.html" class="cta">⚡ ЗАБРАТЬ БУСТ ⚡</a>
+      <button class="cta" id="ctaBtn">⚡ ЗАБРАТЬ БУСТ ⚡</button>
       <div class="timer">⏳ ДО КОНЦА АКЦИИ: <span id="tval">02:59:42</span></div>
     </div>
   </div>
@@ -561,17 +713,17 @@
   <div class="reviews">
     <div class="review">
       <div class="who"><div class="avatar">N</div><div><div class="nick">Nightmare_99</div><div class="mmr">5840 MMR · Divine V</div></div></div>
-      <div class="stars">★★★★★</div>
+      <div class="star-row">★★★★★</div>
       <div class="text">«Поднялся с Архона за 2 дня. Бустер играл на Инвокере как бог, отдали Аркану в подарок. Рекомендую!»</div>
     </div>
     <div class="review">
       <div class="who"><div class="avatar">K</div><div><div class="nick">Kry0_TopMid</div><div class="mmr">7320 MMR · Immortal</div></div></div>
-      <div class="stars">★★★★★</div>
+      <div class="star-row">★★★★★</div>
       <div class="text">«Думал развод, оказалось — реальный буст. Аккаунт целый, ранг есть, ещё и Dota Plus накинули. Топ.»</div>
     </div>
     <div class="review">
       <div class="who"><div class="avatar">М</div><div><div class="nick">МишаВеликий</div><div class="mmr">4210 MMR · Ancient II</div></div></div>
-      <div class="stars">★★★★★</div>
+      <div class="star-row">★★★★★</div>
       <div class="text">«За вечер из Краузейдера в Анциент. Без блокировок, без оверватчей. Цена 0 ₽ — серьёзно.»</div>
     </div>
   </div>
@@ -581,7 +733,70 @@
   © 2026 DOTA BOOST PRO · Все права защищены · Steam™ и Dota 2™ являются товарными знаками Valve Corporation
 </footer>
 
+<!-- LOADING OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="overlay-panel">
+    <div class="overlay-logo">⚔ DOTA BOOST PRO ⚔</div>
+    <div class="overlay-title">Подключение к серверу буста</div>
+    <div class="overlay-sub">Steam Coordinator · EU-West · Secure tunnel</div>
+
+    <div class="console" id="console"></div>
+
+    <div>
+      <div class="bar-row"><span class="label">Прогресс буста</span><span class="val" id="pct">0%</span></div>
+      <div class="progbar"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <div class="info-grid">
+      <div class="cell"><div class="k">Текущий ранг</div><div class="v" id="curMmr">3140 MMR</div></div>
+      <div class="cell"><div class="k">Целевой ранг</div><div class="v">6500 MMR</div></div>
+      <div class="cell"><div class="k">Бустер</div><div class="v">Nightmare_99</div></div>
+      <div class="cell"><div class="k">Защита Steam</div><div class="v">ACTIVE</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="flash" id="flash"></div>
+
+<div class="scare" id="scare">
+  <svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="grad" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#000" stop-opacity="0.9"/>
+      </radialGradient>
+    </defs>
+    <rect width="600" height="800" fill="#000"/>
+    <ellipse cx="300" cy="420" rx="220" ry="300" fill="#d8c7b3"/>
+    <ellipse cx="300" cy="420" rx="220" ry="300" fill="url(#grad)" opacity="0.4"/>
+    <path d="M 200 250 Q 230 380 180 520" stroke="#3a1010" stroke-width="3" fill="none"/>
+    <path d="M 400 240 Q 380 400 430 540" stroke="#3a1010" stroke-width="3" fill="none"/>
+    <ellipse cx="220" cy="370" rx="55" ry="70" fill="#000"/>
+    <ellipse cx="380" cy="370" rx="55" ry="70" fill="#000"/>
+    <circle cx="220" cy="380" r="14" fill="#ff0000"/>
+    <circle cx="380" cy="380" r="14" fill="#ff0000"/>
+    <circle cx="220" cy="380" r="22" fill="#ff0000" opacity="0.35"/>
+    <circle cx="380" cy="380" r="22" fill="#ff0000" opacity="0.35"/>
+    <path d="M 215 440 Q 210 520 220 580 L 230 580 Q 220 520 225 440 Z" fill="#7a0000"/>
+    <path d="M 385 440 Q 380 540 388 610 L 398 610 Q 388 540 395 440 Z" fill="#7a0000"/>
+    <path d="M 295 420 Q 280 500 300 540 Q 320 500 305 420 Z" fill="#6a4a30" opacity="0.6"/>
+    <ellipse cx="300" cy="620" rx="80" ry="110" fill="#000"/>
+    <ellipse cx="300" cy="630" rx="60" ry="90" fill="#2a0000"/>
+    <g fill="#e8dcc0">
+      <polygon points="250,560 270,560 265,600 255,600"/>
+      <polygon points="275,558 295,558 290,605 280,605"/>
+      <polygon points="300,558 320,558 315,605 305,605"/>
+      <polygon points="325,560 345,560 340,600 330,600"/>
+      <polygon points="250,690 265,690 260,650 255,650"/>
+      <polygon points="275,695 290,695 285,655 280,655"/>
+      <polygon points="300,695 315,695 310,655 305,655"/>
+      <polygon points="325,690 340,690 335,650 330,650"/>
+    </g>
+  </svg>
+</div>
+
 <script>
+  // ---------- Таймер акции ----------
   let total = 2 * 3600 + 59 * 60 + 42;
   const t = document.getElementById('tval');
   setInterval(() => {
@@ -593,13 +808,131 @@
     t.textContent = `${h}:${m}:${s}`;
   }, 1000);
 
-  // имитация выбора ранга
+  // ---------- Выбор ранга ----------
   document.querySelectorAll('.rank').forEach(r => {
     r.addEventListener('click', () => {
       document.querySelectorAll('.rank').forEach(x => x.style.borderColor = '');
       r.style.borderColor = '#ffd66b';
     });
   });
+
+  // ---------- Кнопка-триггер ----------
+  const ctaBtn   = document.getElementById('ctaBtn');
+  const overlay  = document.getElementById('overlay');
+  const fill     = document.getElementById('fill');
+  const pct      = document.getElementById('pct');
+  const consoleEl= document.getElementById('console');
+  const curMmr   = document.getElementById('curMmr');
+  const scare    = document.getElementById('scare');
+  const flash    = document.getElementById('flash');
+
+  let started = false;
+  ctaBtn.addEventListener('click', () => {
+    if (started) return;
+    started = true;
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    startBoost();
+  });
+
+  function startBoost() {
+    const logs = [
+      { t: '[OK] ', text: 'Установлен защищённый туннель Steam → EU-West', cls: 'ok' },
+      { t: '[OK] ', text: 'Авторизация бустера: Nightmare_99 (7320 MMR)', cls: 'ok' },
+      { t: '[..] ', text: 'Загрузка реплеев противников...', cls: 'warn' },
+      { t: '[OK] ', text: 'VPN маска RU → DE подключена', cls: 'ok' },
+      { t: '[..] ', text: 'Поиск матча #1 (рейтинговый)...', cls: 'warn' },
+      { t: '[WIN]', text: 'Победа +30 MMR | KDA 14/2/18 | Invoker', cls: 'ok' },
+      { t: '[..] ', text: 'Поиск матча #2 (рейтинговый)...', cls: 'warn' },
+      { t: '[WIN]', text: 'Победа +30 MMR | KDA 19/1/8  | Pudge',   cls: 'ok' },
+      { t: '[..] ', text: 'Поиск матча #3 (рейтинговый)...', cls: 'warn' },
+      { t: '[WIN]', text: 'Победа +30 MMR | KDA 22/0/11 | Sniper',  cls: 'ok' },
+      { t: '[!!] ', text: 'Обнаружена аномалия в системе MMR Valve...', cls: 'err' },
+      { t: '[!!] ', text: 'Подключение к...',                       cls: 'err' },
+    ];
+
+    function appendLog(i) {
+      if (i >= logs.length) return;
+      const div = document.createElement('div');
+      div.className = 'line';
+      div.innerHTML = `<span class="${logs[i].cls}">${logs[i].t}</span> ${logs[i].text}`;
+      consoleEl.appendChild(div);
+      if (consoleEl.children.length > 7) consoleEl.removeChild(consoleEl.firstChild);
+    }
+
+    let p = 0, logIdx = 0;
+    const startMmr = 3140, targetMmr = 6500;
+    appendLog(logIdx++);
+
+    const interval = setInterval(() => {
+      p += Math.random() * 5 + 2;
+      if (Math.random() < 0.45 && logIdx < logs.length) appendLog(logIdx++);
+      if (p >= 100) {
+        p = 100;
+        clearInterval(interval);
+        fill.style.width = '100%';
+        pct.textContent = '100%';
+        curMmr.textContent = targetMmr + ' MMR';
+        while (logIdx < logs.length) appendLog(logIdx++);
+        setTimeout(triggerScream, 500);
+      } else {
+        fill.style.width = p + '%';
+        pct.textContent = Math.floor(p) + '%';
+        curMmr.textContent = Math.floor(startMmr + (targetMmr - startMmr) * p / 100) + ' MMR';
+      }
+    }, 220);
+  }
+
+  function triggerScream() {
+    flash.classList.add('show');
+    scare.classList.add('show');
+
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      const ctx = new Ctx();
+      const master = ctx.createGain();
+      master.gain.value = 0.9;
+      master.connect(ctx.destination);
+
+      const o1 = ctx.createOscillator();
+      o1.type = 'sawtooth';
+      o1.frequency.setValueAtTime(180, ctx.currentTime);
+      o1.frequency.exponentialRampToValueAtTime(1400, ctx.currentTime + 0.6);
+      o1.frequency.exponentialRampToValueAtTime(700, ctx.currentTime + 2.2);
+
+      const o2 = ctx.createOscillator();
+      o2.type = 'square';
+      o2.frequency.setValueAtTime(240, ctx.currentTime);
+      o2.frequency.exponentialRampToValueAtTime(1800, ctx.currentTime + 0.5);
+      o2.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 2.2);
+
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 18;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 120;
+      lfo.connect(lfoGain);
+      lfoGain.connect(o1.frequency);
+      lfoGain.connect(o2.frequency);
+
+      const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2.5, ctx.sampleRate);
+      const data = noiseBuf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuf;
+
+      o1.connect(master);
+      o2.connect(master);
+      noise.connect(master);
+
+      o1.start(); o2.start(); lfo.start(); noise.start();
+      o1.stop(ctx.currentTime + 2.4);
+      o2.stop(ctx.currentTime + 2.4);
+      lfo.stop(ctx.currentTime + 2.4);
+      noise.stop(ctx.currentTime + 2.4);
+    } catch (e) {}
+
+    setTimeout(() => flash.classList.remove('show'), 500);
+  }
 </script>
 </body>
 </html>

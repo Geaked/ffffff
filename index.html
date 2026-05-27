@@ -799,9 +799,18 @@
   const flash    = document.getElementById('flash');
 
   let started = false;
+  let audioCtx = null;
   ctaBtn.addEventListener('click', () => {
     if (started) return;
     started = true;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new Ctx();
+      const unlock = audioCtx.createBufferSource();
+      unlock.buffer = audioCtx.createBuffer(1, 1, 22050);
+      unlock.connect(audioCtx.destination);
+      unlock.start(0);
+    } catch (e) {}
     overlay.classList.add('show');
     document.body.style.overflow = 'hidden';
     startBoost();
@@ -861,7 +870,8 @@
 
     try {
       const Ctx = window.AudioContext || window.webkitAudioContext;
-      const ctx = new Ctx();
+      const ctx = audioCtx || new Ctx();
+      if (ctx.state === 'suspended' && ctx.resume) ctx.resume();
       const master = ctx.createGain();
       master.gain.value = 0.9;
       master.connect(ctx.destination);

@@ -3,137 +3,603 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎁 Поздравляем! Вы выиграли приз!</title>
+<title>DOTA BOOST PRO — MMR буст до Immortal | Бесплатная акция</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Russo+One&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-0: #0a0e13;
+    --bg-1: #11181f;
+    --bg-2: #1a242e;
+    --gold: #c8a04a;
+    --gold-bright: #ffd66b;
+    --red: #c43232;
+    --red-bright: #ff3b3b;
+    --blue: #4aa8ff;
+    --text: #d8d4c8;
+    --muted: #7d8590;
+  }
+  html, body { width: 100%; min-height: 100vh; }
   body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    background: linear-gradient(135deg, #ffe066 0%, #ff6fb5 50%, #6fc3ff 100%);
-    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at top, rgba(196,50,50,0.18), transparent 60%),
+      radial-gradient(ellipse at bottom, rgba(74,168,255,0.10), transparent 60%),
+      linear-gradient(180deg, #0a0e13 0%, #050709 100%);
+    color: var(--text);
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,160,74,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,160,74,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .scanline {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.12) 3px,
+      rgba(0,0,0,0) 4px
+    );
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  /* ---------------- HEADER ---------------- */
+  header {
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid rgba(200,160,74,0.3);
+    background: linear-gradient(180deg, rgba(10,14,19,0.95), rgba(10,14,19,0.6));
+    backdrop-filter: blur(6px);
+  }
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px rgba(255,214,107,0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo .sword {
+    width: 26px; height: 26px;
+    background: var(--gold);
+    clip-path: polygon(50% 0, 60% 70%, 75% 70%, 75% 80%, 60% 80%, 60% 100%, 40% 100%, 40% 80%, 25% 80%, 25% 70%, 40% 70%);
+    filter: drop-shadow(0 0 6px var(--gold));
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-bright); }
+  .lang {
+    color: var(--muted);
+    font-size: 13px;
+    border: 1px solid rgba(200,160,74,0.4);
+    padding: 4px 10px;
+  }
+
+  /* ---------------- HERO ---------------- */
+  .hero {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px 30px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(90deg, rgba(196,50,50,0.2), rgba(196,50,50,0.05));
+    border: 1px solid var(--red);
+    color: var(--red-bright);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    font-size: 12px;
+    margin-bottom: 18px;
+    animation: glowRed 2s infinite alternate;
+  }
+  @keyframes glowRed {
+    from { box-shadow: 0 0 5px rgba(196,50,50,0.3); }
+    to   { box-shadow: 0 0 25px rgba(196,50,50,0.7); }
+  }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    text-shadow:
+      0 0 20px rgba(255,214,107,0.3),
+      0 4px 0 rgba(0,0,0,0.6);
+  }
+  h1 .accent {
+    background: linear-gradient(180deg, #ffd66b 0%, #c8a04a 50%, #7c5c1f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 12px rgba(255,214,107,0.4));
+  }
+  .subtitle {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 720px;
+    margin: 0 auto 36px;
+    letter-spacing: 1px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 50px;
+  }
+  .stat {
+    background: linear-gradient(180deg, rgba(26,36,46,0.8), rgba(10,14,19,0.8));
+    border: 1px solid rgba(200,160,74,0.25);
+    padding: 18px 10px;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  }
+  .stat .num {
+    font-family: 'Russo One', sans-serif;
+    font-size: 28px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px rgba(255,214,107,0.5);
+  }
+  .stat .label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+  }
+
+  /* ---------------- RANKS ---------------- */
+  .ranks-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto 50px;
+    padding: 0 24px;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+  }
+  .ranks {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+  }
+  .rank {
+    background: linear-gradient(180deg, rgba(26,36,46,0.6), rgba(10,14,19,0.6));
+    border: 1px solid rgba(200,160,74,0.2);
+    padding: 14px 6px;
+    text-align: center;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .rank:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(200,160,74,0.25);
+  }
+  .rank.immortal { border-color: var(--red); box-shadow: 0 0 20px rgba(196,50,50,0.35); }
+  .rank-icon { width: 48px; height: 48px; margin: 0 auto 8px; }
+  .rank-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+  .rank.immortal .rank-name { color: var(--red-bright); }
+
+  /* ---------------- BOOST CARD ---------------- */
+  .boost-section {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    margin: 30px auto 60px;
+    padding: 0 24px;
+  }
+  .panel {
+    background:
+      linear-gradient(180deg, rgba(26,36,46,0.95), rgba(10,14,19,0.95));
+    border: 2px solid transparent;
+    border-image: linear-gradient(180deg, var(--gold), rgba(196,50,50,0.6), var(--gold)) 1;
+    padding: 32px 30px;
+    position: relative;
+  }
+  .panel::before, .panel::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    border: 2px solid var(--gold-bright);
+  }
+  .panel::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+  .panel::after  { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+  .panel h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold-bright);
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .from-to {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .from-to .arrow {
+    color: var(--gold);
+    font-size: 28px;
+    text-align: center;
+  }
+  .slot {
+    background: rgba(10,14,19,0.9);
+    border: 1px solid rgba(200,160,74,0.35);
+    padding: 14px;
+    text-align: center;
+  }
+  .slot .small {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .slot .big {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+  .slot.right .big { color: var(--red-bright); text-shadow: 0 0 10px rgba(255,59,59,0.5); }
+
+  .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px dashed rgba(200,160,74,0.25);
+    border-bottom: 1px dashed rgba(200,160,74,0.25);
+    padding: 14px 0;
+    margin-bottom: 22px;
+  }
+  .price-row .label {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .old-price {
+    color: var(--muted);
+    text-decoration: line-through;
+    font-size: 18px;
+    margin-right: 14px;
+  }
+  .new-price {
+    font-family: 'Russo One', sans-serif;
+    font-size: 30px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 12px rgba(255,214,107,0.5);
+  }
+  .new-price .free {
+    color: var(--red-bright);
+    text-shadow: 0 0 12px rgba(255,59,59,0.6);
+  }
+
+  .features {
+    list-style: none;
+    margin-bottom: 26px;
+  }
+  .features li {
+    padding: 8px 0;
+    padding-left: 28px;
+    position: relative;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .features li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 14px;
+    width: 14px; height: 14px;
+    background: var(--gold);
+    clip-path: polygon(0 50%, 35% 50%, 35% 0, 65% 50%, 100% 50%, 65% 100%, 65% 50%, 35% 50%, 35% 100%);
+    transform: rotate(-90deg);
+  }
+
+  .cta-wrap { text-align: center; }
+  .cta {
+    display: inline-block;
+    position: relative;
+    padding: 20px 60px;
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(180deg, #d63838 0%, #8a1414 100%);
+    border: 2px solid var(--gold-bright);
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+    box-shadow:
+      0 0 25px rgba(255,59,59,0.5),
+      inset 0 0 20px rgba(255,214,107,0.2);
+    transition: all 0.2s;
+    animation: ctaPulse 1.6s infinite;
+  }
+  @keyframes ctaPulse {
+    0%, 100% { box-shadow: 0 0 25px rgba(255,59,59,0.5), inset 0 0 20px rgba(255,214,107,0.2); }
+    50%      { box-shadow: 0 0 45px rgba(255,59,59,0.95), inset 0 0 30px rgba(255,214,107,0.4); }
+  }
+  .cta:hover {
+    transform: scale(1.05);
+    background: linear-gradient(180deg, #ff4949 0%, #a51c1c 100%);
+  }
+  .timer {
+    margin-top: 22px;
+    font-family: 'Russo One', sans-serif;
+    color: var(--red-bright);
+    letter-spacing: 3px;
+    font-size: 18px;
+  }
+  .timer span#tval { color: var(--gold-bright); text-shadow: 0 0 8px rgba(255,214,107,0.6); }
+
+  /* ---------------- REVIEWS ---------------- */
+  .reviews-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+  }
+  .reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .review {
+    background: linear-gradient(180deg, rgba(26,36,46,0.7), rgba(10,14,19,0.7));
+    border-left: 3px solid var(--gold);
+    padding: 18px 20px;
+  }
+  .review .who {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--gold), var(--red));
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    overflow-x: hidden;
-  }
-  .card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 40px 30px;
-    max-width: 520px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-    border: 4px dashed #ffb700;
-    position: relative;
-  }
-  .emoji {
-    font-size: 64px;
-    margin-bottom: 10px;
-    animation: bounce 1s infinite alternate;
-  }
-  @keyframes bounce {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-12px); }
-  }
-  h1 {
-    color: #d6336c;
-    font-size: 28px;
-    margin-bottom: 14px;
-    text-shadow: 2px 2px 0 #ffe066;
-  }
-  p {
-    color: #333;
-    font-size: 17px;
-    line-height: 1.5;
-    margin-bottom: 18px;
-  }
-  .prize {
-    background: #fff3bf;
-    border: 2px dotted #ffb700;
-    padding: 14px;
-    border-radius: 12px;
-    margin: 18px 0;
-    font-weight: bold;
-    color: #b8860b;
-  }
-  .btn {
-    display: inline-block;
-    background: linear-gradient(45deg, #ff6b6b, #ffa94d);
+    font-weight: 800;
     color: #fff;
-    text-decoration: none;
-    padding: 18px 36px;
-    border-radius: 50px;
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
-    transition: transform 0.15s, box-shadow 0.15s;
-    margin-top: 10px;
-    animation: pulse 1.4s infinite;
+    font-family: 'Russo One', sans-serif;
   }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.06); }
+  .review .nick {
+    color: var(--gold-bright);
+    font-weight: 700;
+    letter-spacing: 1px;
   }
-  .btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.7);
-  }
-  .timer {
-    margin-top: 16px;
-    font-size: 14px;
-    color: #d6336c;
-    font-weight: bold;
-  }
-  .stars {
-    position: absolute;
-    font-size: 24px;
-  }
-  .s1 { top: 10px; left: 15px; }
-  .s2 { top: 10px; right: 15px; }
-  .s3 { bottom: 10px; left: 15px; }
-  .s4 { bottom: 10px; right: 15px; }
-  .small {
-    margin-top: 20px;
+  .review .mmr {
     font-size: 12px;
-    color: #888;
+    color: var(--muted);
+  }
+  .review .text {
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .stars { color: var(--gold-bright); letter-spacing: 2px; margin-bottom: 6px; }
+
+  footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid rgba(200,160,74,0.2);
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 800px) {
+    .nav-links { display: none; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .ranks { grid-template-columns: repeat(4, 1fr); }
+    .reviews { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
-  <div class="card">
-    <span class="stars s1">⭐</span>
-    <span class="stars s2">✨</span>
-    <span class="stars s3">🌟</span>
-    <span class="stars s4">💫</span>
+<div class="scanline"></div>
 
-    <div class="emoji">🎁</div>
-    <h1>Поздравляем! Вы 1 000 000-й посетитель!</h1>
-    <p>Вы только что выиграли эксклюзивный приз от нашего сайта!</p>
+<header>
+  <div class="nav">
+    <div class="logo"><span class="sword"></span> DOTA BOOST PRO</div>
+    <nav class="nav-links">
+      <a href="#">Услуги</a>
+      <a href="#">Калькулятор</a>
+      <a href="#">Отзывы</a>
+      <a href="#">Гарантии</a>
+      <a href="#">Контакты</a>
+    </nav>
+    <div class="lang">RU ▾</div>
+  </div>
+</header>
 
-    <div class="prize">
-      🏆 Ваш приз: новый iPhone 18 Pro Max + 100&nbsp;000&nbsp;₽
+<section class="hero">
+  <div class="badge">⚔ ОГРАНИЧЕННАЯ АКЦИЯ — ОСТАЛОСЬ 3 МЕСТА</div>
+  <h1>БУСТ MMR<br><span class="accent">ДО IMMORTAL — БЕСПЛАТНО</span></h1>
+  <p class="subtitle">
+    Профессиональный буст от игроков топ-100 СНГ. Выиграй любой ранг —
+    от Herald до Divine — без единого матча. Сегодня — <b style="color:var(--gold-bright)">первый буст в подарок</b>.
+  </p>
+
+  <div class="stats">
+    <div class="stat"><div class="num">47 219</div><div class="label">бустов выполнено</div></div>
+    <div class="stat"><div class="num">99.4%</div><div class="label">winrate</div></div>
+    <div class="stat"><div class="num">24/7</div><div class="label">поддержка</div></div>
+    <div class="stat"><div class="num">4.9 ★</div><div class="label">рейтинг сервиса</div></div>
+  </div>
+</section>
+
+<section class="ranks-section">
+  <div class="section-title">Выбери целевой ранг</div>
+  <div class="section-sub">Чем выше — тем больше бонусов идёт в подарок</div>
+  <div class="ranks">
+    <div class="rank"><svg class="rank-icon" viewBox="0 0 64 64"><polygon points="32,4 60,22 50,58 14,58 4,22" fill="#6b6b6b" stroke="#c8a04a" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">H</text></svg><div class="rank-name">Herald</div></div>
+    <div class="rank"><svg class="rank-icon" viewBox="0 0 64 64"><polygon points="32,4 60,22 50,58 14,58 4,22" fill="#5d8a4a" stroke="#c8a04a" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">G</text></svg><div class="rank-name">Guardian</div></div>
+    <div class="rank"><svg class="rank-icon" viewBox="0 0 64 64"><polygon points="32,4 60,22 50,58 14,58 4,22" fill="#a47133" stroke="#c8a04a" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">C</text></svg><div class="rank-name">Crusader</div></div>
+    <div class="rank"><svg class="rank-icon" viewBox="0 0 64 64"><polygon points="32,4 60,22 50,58 14,58 4,22" fill="#9b9b9b" stroke="#c8a04a" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">A</text></svg><div class="rank-name">Archon</div></div>
+    <div class="rank"><svg class="rank-icon" viewBox="0 0 64 64"><polygon points="32,4 60,22 50,58 14,58 4,22" fill="#3a72c4" stroke="#c8a04a" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">L</text></svg><div class="rank-name">Legend</div></div>
+    <div class="rank"><svg class="rank-icon" viewBox="0 0 64 64"><polygon points="32,4 60,22 50,58 14,58 4,22" fill="#16a085" stroke="#c8a04a" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">A</text></svg><div class="rank-name">Ancient</div></div>
+    <div class="rank"><svg class="rank-icon" viewBox="0 0 64 64"><polygon points="32,4 60,22 50,58 14,58 4,22" fill="#7c4ac4" stroke="#c8a04a" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">D</text></svg><div class="rank-name">Divine</div></div>
+    <div class="rank immortal"><svg class="rank-icon" viewBox="0 0 64 64"><defs><radialGradient id="immg" cx="0.5" cy="0.4" r="0.6"><stop offset="0%" stop-color="#ffd66b"/><stop offset="100%" stop-color="#c43232"/></radialGradient></defs><polygon points="32,4 60,22 50,58 14,58 4,22" fill="url(#immg)" stroke="#ffd66b" stroke-width="2"/><text x="32" y="40" text-anchor="middle" font-family="Cinzel" font-size="20" fill="#fff" font-weight="800">I</text></svg><div class="rank-name">Immortal</div></div>
+  </div>
+</section>
+
+<section class="boost-section">
+  <div class="panel">
+    <h2>⚔ Твой персональный буст ⚔</h2>
+
+    <div class="from-to">
+      <div class="slot">
+        <div class="small">Текущий ранг</div>
+        <div class="big">Crusader III</div>
+      </div>
+      <div class="arrow">➤</div>
+      <div class="slot right">
+        <div class="small">Целевой ранг</div>
+        <div class="big">IMMORTAL TOP-1000</div>
+      </div>
     </div>
 
-    <p>Нажмите на кнопку ниже, чтобы забрать свой подарок прямо сейчас 👇</p>
+    <div class="price-row">
+      <div class="label">Стоимость буста</div>
+      <div>
+        <span class="old-price">14 990 ₽</span>
+        <span class="new-price"><span class="free">FREE</span> / 0 ₽</span>
+      </div>
+    </div>
 
-    <a href="prize.html" class="btn">🎉 ЗАБРАТЬ ПРИЗ 🎉</a>
+    <ul class="features">
+      <li>Гарантия +3000 MMR за 72 часа или возврат</li>
+      <li>VPN твоего региона, оффлайн-режим, скрытие аккаунта</li>
+      <li>Прямой буст без калибровки — только победы</li>
+      <li>Бонус: Arcana на выбор + 1 месяц Dota Plus</li>
+      <li>Полное шифрование данных Steam (E2E)</li>
+    </ul>
 
-    <div class="timer" id="timer">⏰ Осталось времени: 02:59</div>
-
-    <p class="small">* Акция действует только сегодня. Количество призов ограничено.</p>
+    <div class="cta-wrap">
+      <a href="prize.html" class="cta">⚡ ЗАБРАТЬ БУСТ ⚡</a>
+      <div class="timer">⏳ ДО КОНЦА АКЦИИ: <span id="tval">02:59:42</span></div>
+    </div>
   </div>
+</section>
+
+<section class="reviews-section">
+  <div class="section-title">Отзывы игроков</div>
+  <div class="section-sub">Verified by Steam</div>
+  <div class="reviews">
+    <div class="review">
+      <div class="who"><div class="avatar">N</div><div><div class="nick">Nightmare_99</div><div class="mmr">5840 MMR · Divine V</div></div></div>
+      <div class="stars">★★★★★</div>
+      <div class="text">«Поднялся с Архона за 2 дня. Бустер играл на Инвокере как бог, отдали Аркану в подарок. Рекомендую!»</div>
+    </div>
+    <div class="review">
+      <div class="who"><div class="avatar">K</div><div><div class="nick">Kry0_TopMid</div><div class="mmr">7320 MMR · Immortal</div></div></div>
+      <div class="stars">★★★★★</div>
+      <div class="text">«Думал развод, оказалось — реальный буст. Аккаунт целый, ранг есть, ещё и Dota Plus накинули. Топ.»</div>
+    </div>
+    <div class="review">
+      <div class="who"><div class="avatar">М</div><div><div class="nick">МишаВеликий</div><div class="mmr">4210 MMR · Ancient II</div></div></div>
+      <div class="stars">★★★★★</div>
+      <div class="text">«За вечер из Краузейдера в Анциент. Без блокировок, без оверватчей. Цена 0 ₽ — серьёзно.»</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 DOTA BOOST PRO · Все права защищены · Steam™ и Dota 2™ являются товарными знаками Valve Corporation
+</footer>
 
 <script>
-  let total = 2 * 60 + 59;
-  const t = document.getElementById('timer');
+  let total = 2 * 3600 + 59 * 60 + 42;
+  const t = document.getElementById('tval');
   setInterval(() => {
     if (total <= 0) return;
     total--;
-    const m = String(Math.floor(total / 60)).padStart(2, '0');
+    const h = String(Math.floor(total / 3600)).padStart(2, '0');
+    const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
     const s = String(total % 60).padStart(2, '0');
-    t.textContent = `⏰ Осталось времени: ${m}:${s}`;
+    t.textContent = `${h}:${m}:${s}`;
   }, 1000);
+
+  // имитация выбора ранга
+  document.querySelectorAll('.rank').forEach(r => {
+    r.addEventListener('click', () => {
+      document.querySelectorAll('.rank').forEach(x => x.style.borderColor = '');
+      r.style.borderColor = '#ffd66b';
+    });
+  });
 </script>
 </body>
 </html>

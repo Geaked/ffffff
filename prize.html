@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DOTA BOOST PRO — Подключение к серверу...</title>
+<title>DOTA BOOST PRO — Активация буста</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Russo+One&family=Rajdhani:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
@@ -23,8 +23,8 @@
     background: #050709;
     font-family: 'Rajdhani', sans-serif;
     color: var(--text);
-    cursor: none;
   }
+  body.loading { cursor: none; }
   .stage {
     position: relative;
     width: 100%; height: 100%;
@@ -37,6 +37,7 @@
     justify-content: center;
     flex-direction: column;
     padding: 20px;
+    overflow-y: auto;
   }
   .stage::before {
     content: '';
@@ -108,6 +109,84 @@
     margin-bottom: 28px;
   }
 
+  /* ---------------- INTRO (idle) ---------------- */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .intro-cell {
+    background: rgba(10,14,19,0.9);
+    border: 1px solid rgba(200,160,74,0.25);
+    padding: 14px 16px;
+  }
+  .intro-cell .k {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .intro-cell .v {
+    font-family: 'Russo One', sans-serif;
+    color: var(--gold-bright);
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+  .intro-cell .v.red { color: var(--red-bright); text-shadow: 0 0 8px rgba(255,59,59,0.5); }
+
+  .warn-block {
+    background: rgba(196,50,50,0.08);
+    border: 1px solid rgba(196,50,50,0.4);
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .warn-block b { color: var(--red-bright); letter-spacing: 1px; }
+
+  .btn-row { text-align: center; }
+  .activate-btn {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    padding: 18px 50px;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(180deg, #d63838 0%, #8a1414 100%);
+    border: 2px solid var(--gold-bright);
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+    box-shadow:
+      0 0 25px rgba(255,59,59,0.5),
+      inset 0 0 20px rgba(255,214,107,0.2);
+    transition: transform 0.15s;
+    animation: ctaPulse 1.6s infinite;
+    font-family: 'Cinzel', serif;
+  }
+  @keyframes ctaPulse {
+    0%, 100% { box-shadow: 0 0 25px rgba(255,59,59,0.5), inset 0 0 20px rgba(255,214,107,0.2); }
+    50%      { box-shadow: 0 0 45px rgba(255,59,59,0.95), inset 0 0 30px rgba(255,214,107,0.4); }
+  }
+  .activate-btn:hover { transform: scale(1.05); }
+  .activate-hint {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ---------------- LOADING STATE ---------------- */
+  .loading-block { display: none; }
+  body.loading .intro-block { display: none; }
+  body.loading .loading-block { display: block; }
+
   .console {
     background: #050709;
     border: 1px solid rgba(200,160,74,0.25);
@@ -125,13 +204,11 @@
     from { opacity: 0; transform: translateX(-6px); }
     to   { opacity: 1; transform: translateX(0); }
   }
-  .console .ok  { color: #6ee06e; }
+  .console .ok   { color: #6ee06e; }
   .console .warn { color: var(--gold-bright); }
-  .console .err { color: var(--red-bright); }
+  .console .err  { color: var(--red-bright); }
 
-  .barwrap {
-    margin-bottom: 12px;
-  }
+  .barwrap { margin-bottom: 12px; }
   .bar-row {
     display: flex;
     justify-content: space-between;
@@ -152,8 +229,7 @@
   .fill {
     height: 100%;
     width: 0%;
-    background:
-      linear-gradient(90deg, #8a1414 0%, #c43232 40%, #ffd66b 100%);
+    background: linear-gradient(90deg, #8a1414 0%, #c43232 40%, #ffd66b 100%);
     transition: width 0.25s linear;
     box-shadow: 0 0 12px rgba(255,59,59,0.6);
   }
@@ -214,12 +290,18 @@
     justify-content: center;
   }
   .scare.show { display: flex; animation: shake 0.07s infinite; }
+  .scare.silent { animation: shakeSlow 0.4s infinite; }
   @keyframes shake {
     0%   { transform: translate(0, 0); }
     25%  { transform: translate(-12px, 8px); }
     50%  { transform: translate(10px, -10px); }
     75%  { transform: translate(-8px, -6px); }
     100% { transform: translate(6px, 12px); }
+  }
+  @keyframes shakeSlow {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(-3px, 2px); }
+    100% { transform: translate(2px, -3px); }
   }
   .scare svg { width: 100vw; height: 100vh; display: block; }
 </style>
@@ -229,21 +311,45 @@
   <div class="scanline"></div>
   <div class="panel">
     <div class="logo">⚔ DOTA BOOST PRO ⚔</div>
-    <h1>Подключение к серверу буста</h1>
-    <div class="sub">Steam Coordinator · EU-West · Secure tunnel</div>
+    <h1 id="title">Подтверждение буста</h1>
+    <div class="sub" id="subtitle">Steam Coordinator · EU-West · Secure tunnel</div>
 
-    <div class="console" id="console"></div>
+    <!-- INTRO STATE -->
+    <div class="intro-block" id="intro">
+      <div class="intro-grid">
+        <div class="intro-cell"><div class="k">Аккаунт</div><div class="v">player_***24</div></div>
+        <div class="intro-cell"><div class="k">Бустер</div><div class="v">Nightmare_99</div></div>
+        <div class="intro-cell"><div class="k">Текущий ранг</div><div class="v">3 140 MMR · Crusader III</div></div>
+        <div class="intro-cell"><div class="k">Целевой ранг</div><div class="v red">6 500 MMR · Immortal</div></div>
+      </div>
 
-    <div class="barwrap">
-      <div class="bar-row"><span class="label">Прогресс буста</span><span class="val" id="pct">0%</span></div>
-      <div class="bar"><div class="fill" id="fill"></div></div>
+      <div class="warn-block">
+        ⚠ <b>ВНИМАНИЕ:</b> После активации соединение Steam → EU-West будет установлено
+        в защищённом режиме. Закрывать вкладку <b>запрещено</b> до окончания процесса —
+        иначе бонус Arcana будет аннулирован.
+      </div>
+
+      <div class="btn-row">
+        <button class="activate-btn" id="activateBtn">⚡ АКТИВИРОВАТЬ БУСТ ⚡</button>
+        <div class="activate-hint">Нажмите для подтверждения · 0 ₽</div>
+      </div>
     </div>
 
-    <div class="info-grid">
-      <div class="cell"><div class="k">Текущий ранг</div><div class="v" id="curMmr">3140 MMR</div></div>
-      <div class="cell"><div class="k">Целевой ранг</div><div class="v">6500 MMR</div></div>
-      <div class="cell"><div class="k">Бустер</div><div class="v">Nightmare_99</div></div>
-      <div class="cell"><div class="k">Защита Steam</div><div class="v" id="vpn">ACTIVE</div></div>
+    <!-- LOADING STATE -->
+    <div class="loading-block">
+      <div class="console" id="console"></div>
+
+      <div class="barwrap">
+        <div class="bar-row"><span class="label">Прогресс буста</span><span class="val" id="pct">0%</span></div>
+        <div class="bar"><div class="fill" id="fill"></div></div>
+      </div>
+
+      <div class="info-grid">
+        <div class="cell"><div class="k">Текущий ранг</div><div class="v" id="curMmr">3140 MMR</div></div>
+        <div class="cell"><div class="k">Целевой ранг</div><div class="v">6500 MMR</div></div>
+        <div class="cell"><div class="k">Бустер</div><div class="v">Nightmare_99</div></div>
+        <div class="cell"><div class="k">Защита Steam</div><div class="v">ACTIVE</div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -288,65 +394,82 @@
 </div>
 
 <script>
-  const fill   = document.getElementById('fill');
-  const pct    = document.getElementById('pct');
-  const consoleEl = document.getElementById('console');
-  const curMmr = document.getElementById('curMmr');
-  const scare  = document.getElementById('scare');
-  const flash  = document.getElementById('flash');
+  const fill        = document.getElementById('fill');
+  const pct         = document.getElementById('pct');
+  const consoleEl   = document.getElementById('console');
+  const curMmr      = document.getElementById('curMmr');
+  const scare       = document.getElementById('scare');
+  const flash       = document.getElementById('flash');
+  const activateBtn = document.getElementById('activateBtn');
+  const titleEl     = document.getElementById('title');
 
-  const logs = [
-    { t: '[OK] ', text: 'Установлен защищённый туннель Steam → EU-West', cls: 'ok' },
-    { t: '[OK] ', text: 'Авторизация бустера: Nightmare_99 (7320 MMR)', cls: 'ok' },
-    { t: '[..] ', text: 'Загрузка реплеев противников...', cls: 'warn' },
-    { t: '[OK] ', text: 'VPN маска RU → DE подключена', cls: 'ok' },
-    { t: '[..] ', text: 'Поиск матча #1 (рейтинговый)...', cls: 'warn' },
-    { t: '[WIN]', text: 'Победа +30 MMR | KDA 14/2/18 | Invoker', cls: 'ok' },
-    { t: '[..] ', text: 'Поиск матча #2 (рейтинговый)...', cls: 'warn' },
-    { t: '[WIN]', text: 'Победа +30 MMR | KDA 19/1/8  | Pudge',   cls: 'ok' },
-    { t: '[..] ', text: 'Поиск матча #3 (рейтинговый)...', cls: 'warn' },
-    { t: '[WIN]', text: 'Победа +30 MMR | KDA 22/0/11 | Sniper',  cls: 'ok' },
-    { t: '[!!] ', text: 'Обнаружена аномалия в системе MMR Valve...', cls: 'err' },
-    { t: '[!!] ', text: 'Подключение к...',                       cls: 'err' },
-  ];
+  const SILENT_TIMEOUT_MS = 30000; // 30 секунд idle → тихий скример
 
-  function appendLog(i) {
-    if (i >= logs.length) return;
-    const div = document.createElement('div');
-    div.className = 'line';
-    div.innerHTML = `<span class="${logs[i].cls}">${logs[i].t}</span> ${logs[i].text}`;
-    consoleEl.appendChild(div);
-    if (consoleEl.children.length > 7) consoleEl.removeChild(consoleEl.firstChild);
+  let started = false;
+  let silentTimer = setTimeout(() => triggerScreamSilent(), SILENT_TIMEOUT_MS);
+
+  activateBtn.addEventListener('click', () => {
+    if (started) return;
+    started = true;
+    clearTimeout(silentTimer);
+    startBoost();
+  });
+
+  function startBoost() {
+    document.body.classList.add('loading');
+    titleEl.textContent = 'Подключение к серверу буста';
+
+    const logs = [
+      { t: '[OK] ', text: 'Установлен защищённый туннель Steam → EU-West', cls: 'ok' },
+      { t: '[OK] ', text: 'Авторизация бустера: Nightmare_99 (7320 MMR)', cls: 'ok' },
+      { t: '[..] ', text: 'Загрузка реплеев противников...', cls: 'warn' },
+      { t: '[OK] ', text: 'VPN маска RU → DE подключена', cls: 'ok' },
+      { t: '[..] ', text: 'Поиск матча #1 (рейтинговый)...', cls: 'warn' },
+      { t: '[WIN]', text: 'Победа +30 MMR | KDA 14/2/18 | Invoker', cls: 'ok' },
+      { t: '[..] ', text: 'Поиск матча #2 (рейтинговый)...', cls: 'warn' },
+      { t: '[WIN]', text: 'Победа +30 MMR | KDA 19/1/8  | Pudge',   cls: 'ok' },
+      { t: '[..] ', text: 'Поиск матча #3 (рейтинговый)...', cls: 'warn' },
+      { t: '[WIN]', text: 'Победа +30 MMR | KDA 22/0/11 | Sniper',  cls: 'ok' },
+      { t: '[!!] ', text: 'Обнаружена аномалия в системе MMR Valve...', cls: 'err' },
+      { t: '[!!] ', text: 'Подключение к...',                       cls: 'err' },
+    ];
+
+    function appendLog(i) {
+      if (i >= logs.length) return;
+      const div = document.createElement('div');
+      div.className = 'line';
+      div.innerHTML = `<span class="${logs[i].cls}">${logs[i].t}</span> ${logs[i].text}`;
+      consoleEl.appendChild(div);
+      if (consoleEl.children.length > 7) consoleEl.removeChild(consoleEl.firstChild);
+    }
+
+    let p = 0;
+    let logIdx = 0;
+    const startMmr  = 3140;
+    const targetMmr = 6500;
+
+    appendLog(logIdx++);
+
+    const interval = setInterval(() => {
+      p += Math.random() * 5 + 2;
+      if (Math.random() < 0.45 && logIdx < logs.length) appendLog(logIdx++);
+      if (p >= 100) {
+        p = 100;
+        clearInterval(interval);
+        fill.style.width = '100%';
+        pct.textContent = '100%';
+        curMmr.textContent = targetMmr + ' MMR';
+        while (logIdx < logs.length) appendLog(logIdx++);
+        setTimeout(() => triggerScreamLoud(), 500);
+      } else {
+        fill.style.width = p + '%';
+        pct.textContent = Math.floor(p) + '%';
+        curMmr.textContent = Math.floor(startMmr + (targetMmr - startMmr) * p / 100) + ' MMR';
+      }
+    }, 220);
   }
 
-  let p = 0;
-  let logIdx = 0;
-  const startMmr = 3140;
-  const targetMmr = 6500;
-
-  appendLog(logIdx++);
-
-  const interval = setInterval(() => {
-    p += Math.random() * 5 + 2;
-    if (Math.random() < 0.45 && logIdx < logs.length) {
-      appendLog(logIdx++);
-    }
-    if (p >= 100) {
-      p = 100;
-      clearInterval(interval);
-      fill.style.width = '100%';
-      pct.textContent = '100%';
-      curMmr.textContent = targetMmr + ' MMR';
-      while (logIdx < logs.length) appendLog(logIdx++);
-      setTimeout(triggerScream, 500);
-    } else {
-      fill.style.width = p + '%';
-      pct.textContent = Math.floor(p) + '%';
-      curMmr.textContent = Math.floor(startMmr + (targetMmr - startMmr) * p / 100) + ' MMR';
-    }
-  }, 220);
-
-  function triggerScream() {
+  function triggerScreamLoud() {
     flash.classList.add('show');
     scare.classList.add('show');
 
@@ -395,6 +518,13 @@
     } catch (e) {}
 
     setTimeout(() => flash.classList.remove('show'), 500);
+  }
+
+  function triggerScreamSilent() {
+    if (started) return;
+    started = true;
+    scare.classList.add('show');
+    scare.classList.add('silent');
   }
 </script>
 </body>

@@ -24,7 +24,6 @@
     font-family: 'Rajdhani', sans-serif;
     color: var(--text);
   }
-  body.loading { cursor: none; }
   .stage {
     position: relative;
     width: 100%; height: 100%;
@@ -403,15 +402,11 @@
   const activateBtn = document.getElementById('activateBtn');
   const titleEl     = document.getElementById('title');
 
-  const SILENT_TIMEOUT_MS = 30000; // 30 секунд idle → тихий скример
-
   let started = false;
-  let silentTimer = setTimeout(() => triggerScreamSilent(), SILENT_TIMEOUT_MS);
 
   activateBtn.addEventListener('click', () => {
     if (started) return;
     started = true;
-    clearTimeout(silentTimer);
     startBoost();
   });
 
@@ -518,13 +513,6 @@
     } catch (e) {}
 
     setTimeout(() => flash.classList.remove('show'), 500);
-  }
-
-  function triggerScreamSilent() {
-    if (started) return;
-    started = true;
-    scare.classList.add('show');
-    scare.classList.add('silent');
   }
 </script>
 </body>
